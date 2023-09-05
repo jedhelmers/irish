@@ -1,0 +1,50 @@
+[
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "travel"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "grammar"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "greetings"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "food"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "family"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "fun"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "recreation"
+        }
+    },
+    {
+        "model": "my_app.tags",
+        "fields": {
+            "tag": "directions"
+        }
+    }
+]
