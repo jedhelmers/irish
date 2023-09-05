@@ -2,7 +2,9 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 
 from .models import Song
-from .producer import send_message  # Assuming you'll put producer code in the same app
+from .producer import send_message
+import my_app.utils as utils
+
 
 def create_song(request, user_id):
     print(request)
@@ -21,6 +23,8 @@ def create_song(request, user_id):
 
 def query_songs(request):
     # Query all songs in the Song table
+    # Test
+    print(utils.fetch_ipa('Is i Londain priomhchathair'))
     print('\n\nBUTTS', request)
     all_songs = Song.objects.all()
     print('\n\nBUTTS', all_songs)
