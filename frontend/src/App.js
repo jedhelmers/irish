@@ -1,3 +1,4 @@
+import Main from './components/main'
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
@@ -71,7 +72,7 @@ function App() {
       console.log(response);
     });
 
-    
+
   return (
     <div className="App">
       <header className="App-header">
@@ -79,6 +80,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <Main csrftoken={csrftoken}/>
         <button onClick={postData}>Howdy</button>
         <button onClick={fetchSongs}>Fetch</button>
       </header>

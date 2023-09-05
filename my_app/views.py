@@ -4,10 +4,61 @@ from .models import UserQueries, Tags, Song
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .producer import send_message
 import my_app.utils as utils
 
+
+from .tasks import publish_translation_task
+
+# @csrf_exempt
+# def translate_view(request):
+#     if request.method == 'POST':
+#         data = json.loads(request.body)
+#         english_text = data.get('query', '')
+#         print('english_text', english_text)
+#         # english_text = request.POST.get('query', '')
+
+#         # Publish the task to RabbitMQ
+#         publish_translation_task(english_text)
+
+#         return JsonResponse({
+#             'status': 'queued',
+#             'query': english_text
+#         })
+
+#     return JsonResponse({'error': 'Invalid request'})
+
+@csrf_exempt
+def translate(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print('data\n', data)
+        english_text = data.get('query', '')
+        print('english_text\n', english_text)
+        # english_text = data.get('query', '')
+
+        publish_translation_task(english_text)
+
+        return JsonResponse({
+            'status': 'queued',
+            'query': english_text
+        })
+
+        # Simulate translation logic, ideally you should use a translation API or library here
+        irish_translation = utils.fetch_translation(english_text)
+
+        irish_translation['pronunciation'] = utils.fetch_ipa(irish_translation['result'])['output']
+
+        print('\n\nBOOOM!', irish_translation, '\n\n')
+
+        # TODO: Integrate RabbitMQ here for background processing if needed
+
+        return JsonResponse({'translation': irish_translation})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 # Function to push data to RabbitMQ, call translation and pronunciation APIs, etc.
@@ -17,6 +68,7 @@ def process_query(input_text):
     output_text = "Translated " + input_text
     pronunciation = "Pronunciation of " + input_text
     return output_text, pronunciation
+
 
 @method_decorator(login_required, name='dispatch')
 class QueryView(View):

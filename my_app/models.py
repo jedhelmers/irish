@@ -26,3 +26,14 @@ class UserQueries(models.Model):
 
     def __str__(self):
         return f'Query by {self.user.username} at {self.creation}'
+
+
+def populate_tags():
+    predefined_tags = ['travel', 'food', 'photography', 'technology', 'music', 'fitness']
+
+    for tag_name in predefined_tags:
+        tag, created = Tags.objects.get_or_create(tag=tag_name)
+        if created:
+            print(f"Added new tag: {tag_name}")
+        else:
+            print(f"Tag {tag_name} already exists")

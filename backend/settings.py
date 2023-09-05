@@ -40,6 +40,8 @@ CORS_ALLOWED_ORIGINS = [
 INSTALLED_APPS = [
     'corsheaders',
     'my_app',
+    'backend',
+    'frontend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

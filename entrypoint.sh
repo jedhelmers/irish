@@ -9,5 +9,8 @@ done
 # Run migrations
 python manage.py migrate
 
+# Populate the database (new line added)
+python my_app/populate_tags.py
+
 # Run your server
 exec "$@"
