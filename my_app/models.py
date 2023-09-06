@@ -8,7 +8,6 @@ class Song(models.Model):
     notes = models.JSONField()
 
 
-
 class Tags(models.Model):
     tag = models.CharField(max_length=50, unique=True)
 
