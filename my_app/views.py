@@ -11,25 +11,20 @@ from .producer import send_message
 import my_app.utils as utils
 
 
-from .tasks import publish_translation_task
+from .tasks import publish_translation_task, translate
 
-# @csrf_exempt
-# def translate_view(request):
-#     if request.method == 'POST':
-#         data = json.loads(request.body)
-#         english_text = data.get('query', '')
-#         print('english_text', english_text)
-#         # english_text = request.POST.get('query', '')
 
-#         # Publish the task to RabbitMQ
-#         publish_translation_task(english_text)
+def translate_view(request):
+    text = request.GET.get('text', '')
 
-#         return JsonResponse({
-#             'status': 'queued',
-#             'query': english_text
-#         })
+    # Call the Celery task. This is non-blocking.
+    task = translate.apply_async((text,))
 
-#     return JsonResponse({'error': 'Invalid request'})
+    # If you need to wait for the result:
+    result = task.get()
+
+    return JsonResponse({'result': result})
+
 
 @csrf_exempt
 def translate(request):
