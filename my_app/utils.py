@@ -34,9 +34,9 @@ def fetch_translation(english_text):
 
 
 # Test
-query_str = "England is stupid, and my dog jumped through my window."
-test_1 = fetch_translation(query_str)
-print(test_1)
+# query_str = "England is stupid, and my dog jumped through my window."
+# test_1 = fetch_translation(query_str)
+# print(test_1)
 
 
 def fetch_ipa(irish_text):
@@ -57,9 +57,9 @@ def fetch_ipa(irish_text):
 
     return output
 
-# Test
-print(fetch_ipa(test_1['result']))
+# # Test
+# print(fetch_ipa(test_1['result']))
 
-# Unit test
-test_1['pronunciation'] = fetch_ipa(test_1['result'])['output']
-print(test_1)
+# # Unit test
+# test_1['pronunciation'] = fetch_ipa(test_1['result'])['output']
+# print(test_1)

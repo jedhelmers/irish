@@ -32,7 +32,9 @@ SECRET_KEY = 'django-insecure-1tr_r#8q+9!te@7m*b3&8h0#yca6aa!1h*u83lp9soee5iha*_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend', 'my_app', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['backend', 'my_app', 'my_app_1', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -41,6 +43,8 @@ CORS_ALLOWED_ORIGINS = [
     # "http://127.0.0.1:9000",   # Or any other domain
     # "https://yourfrontend.com",
 ]
+
+# CORS_ALLOWED_ORIGINS=['*']
 
 # Application definition
 
@@ -88,9 +92,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+
 # CELERY_BROKER_URL = 'amqp://myuser:mypassword@rabbitmq:5672/myvhost'
-CELERY_BROKER_URL = 'amqp://myuser:mypassword@rabbitmq:5672/'
-CELERY_RESULT_BACKEND = 'rpc://'  # or 'redis://localhost:6379/0', 'db+sqlite:///results.sqlite3', etc.
+CELERY_BROKER_URL = 'pyamqp://myuser:mypassword@rabbitmq:5672/myvhost'
+# CELERY_BROKER_URL = 'pyamqp://myuser:mypassword@rabbitmq:5672/'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'cache+memory://'
+# CELERY_RESULT_BACKEND = None
+
+CELERY_IGNORE_RESULT = True
+# CELERY_ALWAYS_EAGER = True
+CELERY_TRACK_STARTED = True
+# CELERY_STORE_EAGER_RESULT = True
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

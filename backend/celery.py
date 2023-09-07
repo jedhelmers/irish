@@ -3,13 +3,13 @@ import os
 from celery import Celery
 from django.conf import settings
 
-# app = Celery('my_app')
-# app = Celery('tasks', broker='pyamqp://myuser:mypassword@rabbitmq:5672//')
-app = Celery('my_app', broker='pyamqp://myuser:mypassword@rabbitmq:5672//')
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
+# app = Celery('my_app')
+# app = Celery('tasks', broker='pyamqp://myuser:mypassword@rabbitmq:5672//')
+app = Celery('backend', broker='amqp://myuser:mypassword@rabbitmq:5672//')
 # app = Celery('your_project')
 
 # app.config_from_object('django.conf:settings', namespace='CELERY')
