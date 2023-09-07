@@ -21,15 +21,13 @@ const Main = ({ csrftoken }) => {
         })
         .then(response => response.json())
         .then(data => {
+            data = JSON.parse(data.task)
             console.log(data)
-            if (data?.translation) {
-                console.log('data.result', data.result)
-                if (data.translation.err === null) {
-                    setData(data.translation.result);
-                } else {
-                    console.error("Nope. Translation failed.")
-                    // handle error here
-                }
+            if (data.err === null) {
+                setData(data.translation);
+            } else {
+                console.error("Nope. Translation failed.")
+                // handle error here
             }
         });
     }

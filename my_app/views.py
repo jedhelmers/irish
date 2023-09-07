@@ -17,8 +17,13 @@ import my_app.tasks as tasks
 
 from .tasks import publish_translation_task, translate
 
+task_id = 0
+
+global_cache = {}
+
 @csrf_exempt
 def translate_view(request):
+    global task_id
     print('START REQUEST')
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -29,49 +34,12 @@ def translate_view(request):
             return JsonResponse({"error": "No text provided"}, status=400)
 
         # Use Celery to asynchronously handle the translation and pronunciation
-        result = tasks.handle_translation_and_pronunciation.delay(english_text)
-
-        # POLL THE TASK
-        # while True:
-        #     result = AsyncResult(result.id)
-        #     print(result.status)
-        #     if result.status == 'SUCCESS' or result.status == 'FAILURE':
-        #         break
-        #     time.sleep(1)
-
+        result = tasks.handle_translation_and_pronunciation(english_text)
         print('result', result)
-        if result.ready():
-            actual_result = result.get()
-            print('actual_result', actual_result)
 
-
-        return JsonResponse({"status": f'Translation and pronunciation of "{english_text}" in progress', "task_id": result.id})
+        return JsonResponse({"status": f'Translation and pronunciation of "{english_text}": Done', "task": json.JSONEncoder().encode(result)})
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
-
-@csrf_exempt
-def test(test_string):
-    print('WEEEE')
-    print(test_string)
-
-
-# @csrf_exempt
-# def check_task_status(request, task_id):
-#     task_result = AsyncResult(task_id)
-
-#     print('task_result', task_result)
-#     print('task_result', task_result.ready())
-
-#     if task_result.ready():
-#         return JsonResponse({"status": "finished", "result": task_result.get()})
-#     else:
-#         return JsonResponse({"status": "pending"})
-
-def check_task_status(request, task_id):
-    status = cache.get(f"task_{task_id}_status", "pending")
-    print('STATUS', status)
-    return JsonResponse({"status": status})
-
 
 
 @csrf_exempt

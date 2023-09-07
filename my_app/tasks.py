@@ -1,17 +1,11 @@
 from celery import Celery
 import pika
 import json
-import requests
 from . import utils
 from celery import shared_task, current_task
 from my_app.models import UserQueries
 from django.contrib.auth.models import User
 from backend.celery import app
-from django.core.cache import cache
-
-# app = Celery('tasks', broker='pyamqp://guest@localhost//')
-# app = Celery('tasks', broker='pyamqp://guest@rabbitmq//')
-# app = Celery('tasks', broker='pyamqp://myuser:mypassword@rabbitmq:5672//')
 
 
 try:
@@ -22,10 +16,6 @@ except:
 @shared_task(bind=True)
 def handle_translation_and_pronunciation(self, original_text):
     print('Task started...')
-    task_id = self.request.id
-
-    # Set the task as started.
-    cache.set(f"task_{task_id}_status", "started")
 
     # Call the translation API
     translation_data = utils.fetch_translation(original_text)
@@ -35,21 +25,14 @@ def handle_translation_and_pronunciation(self, original_text):
 
     # Create a new UserQueries object and save it to the database
     if map_to_user_queries(translation_data):
-        print('PASSED UPDATE STATE')
-
-        cache.set(f"task_{task_id}_status", "completed", 300) # Set for 5 minutes
-
         print('Mapped to UserQueries: Task finished!')
-        # status = cache.get(f"task_{task_id}_status", "pending")
-        # print('STATUS', status)
-        # response = requests.get('http://localhost:8000/api/test/butts')
-        response = requests.get('http://my_app:8000/api/test/butts')
 
-        print('response')
-        print(response)
-        print('Task finished! False')
-
-        return translation_data
+        return {
+            "err": translation_data.get('err', None),
+            "translation": translation_data.get('result', ''),
+            "input": translation_data.get('sourceTransliteration', ''),
+            "pronunciation": translation_data.get('pronunciation', '')
+        }
 
     return False
 
@@ -65,7 +48,7 @@ def map_to_user_queries(combined_data):
             pronunciation=combined_data.get('pronunciation', '')
         )
         user_query.save()
-        print('user_query', user_query)
+
         return True
     except:
         return False
