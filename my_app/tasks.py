@@ -6,8 +6,12 @@ from . import utils
 from celery import shared_task
 from my_app.models import UserQueries
 from django.contrib.auth.models import User
+from backend.celery import app
 
-app = Celery('tasks', broker='pyamqp://guest@localhost//')
+# app = Celery('tasks', broker='pyamqp://guest@localhost//')
+# app = Celery('tasks', broker='pyamqp://guest@rabbitmq//')
+# app = Celery('tasks', broker='pyamqp://myuser:mypassword@rabbitmq:5672//')
+
 
 try:
     user = User.objects.create(username='dummyuser')
