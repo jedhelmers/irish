@@ -17,8 +17,11 @@ services:
     ports:
       - '15672:15672'
       - '5672:5672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_PASS=mypassword
 
-  backend:
+  my_app:
     build: .  # Build context set to root directory
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
@@ -37,6 +40,8 @@ services:
       - ./frontend:/frontend
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_API_URL: "http://localhost:8000"
 
 volumes:
   db-data:

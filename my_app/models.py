@@ -17,6 +17,7 @@ class Tags(models.Model):
 
 class UserQueries(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
+    # user_id = models.CharField(max_length=256)  # Store CSRF token as user ID
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     input_text = models.TextField()
     output_text = models.TextField()

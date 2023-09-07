@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import InputBox from './inputs'
 import OutputBox from './outputs'
 
+const API_URL = process.env.REACT_APP_API_URL;
+
+console.log('API_URL', API_URL)
 const Main = ({ csrftoken }) => {
     const [search, setSearch] = useState("")
     const [data, setData] = useState("")
 
     const handleSearch = () => {
         // Simulate an API call to Django Backend
-        fetch('/api/translate/', {
+        fetch(`${API_URL}/api/translate/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

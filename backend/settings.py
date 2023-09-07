@@ -10,7 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+# settings.py
+from .celery import app as celery_app
 from pathlib import Path
+
+
+# Make sure it gets loaded when Django starts
+__all__ = ('celery_app',)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +32,7 @@ SECRET_KEY = 'django-insecure-1tr_r#8q+9!te@7m*b3&8h0#yca6aa!1h*u83lp9soee5iha*_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['backend', 'my_app', 'localhost', '127.0.0.1']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -40,14 +47,14 @@ CORS_ALLOWED_ORIGINS = [
 INSTALLED_APPS = [
     'corsheaders',
     'my_app',
-    'backend',
-    'frontend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'backend',
+    'frontend',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +88,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# CELERY_BROKER_URL = 'amqp://myuser:mypassword@rabbitmq:5672/myvhost'
+CELERY_BROKER_URL = 'amqp://myuser:mypassword@rabbitmq:5672/'
+CELERY_RESULT_BACKEND = 'rpc://'  # or 'redis://localhost:6379/0', 'db+sqlite:///results.sqlite3', etc.
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

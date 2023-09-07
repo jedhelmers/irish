@@ -9,22 +9,38 @@ import json
 
 from .producer import send_message
 import my_app.utils as utils
+import my_app.tasks as tasks
 
 
 from .tasks import publish_translation_task, translate
 
-
+@csrf_exempt
 def translate_view(request):
-    text = request.GET.get('text', '')
+    # print(request.COOKIES)
 
-    # Call the Celery task. This is non-blocking.
-    task = translate.apply_async((text,))
+    # print("Request: ", request)
+    # print("Request Headers: ", request.headers['X-Csrftoken'])
 
-    # If you need to wait for the result:
-    result = task.get()
 
-    return JsonResponse({'result': result})
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        english_text = data.get('query', '')
 
+        # Make sure text is not empty
+        if not english_text:
+            return JsonResponse({"error": "No text provided"}, status=400)
+            
+        # Use Celery to asynchronously handle the translation and pronunciation
+        result = tasks.handle_translation_and_pronunciation.delay(english_text)
+        print('result', result)
+        if result.ready():
+            actual_result = result.get()
+            print('actual_result', actual_result)
+
+
+        return JsonResponse({"status": f'Translation and pronunciation of "{english_text}" in progress'})
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @csrf_exempt
 def translate(request):
