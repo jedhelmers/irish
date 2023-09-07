@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
 
@@ -26,6 +26,27 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.main {
+  display: flex;
+  width: 94vw;
+  justify-content: space-between;
+}
+
+.card {
+  padding: 20px;
+  margin: 12px;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 4px;
+  color: #282c34;
+  background-color: white;
+}
+
+textarea.card {
+  font-size: 20px;
+  text-align: center;
 }
 
 @keyframes App-logo-spin {

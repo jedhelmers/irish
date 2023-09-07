@@ -4,7 +4,6 @@ import OutputBox from './outputs'
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-console.log('API_URL', API_URL)
 const Main = ({ csrftoken }) => {
     const [search, setSearch] = useState("")
     const [data, setData] = useState("")
@@ -24,7 +23,7 @@ const Main = ({ csrftoken }) => {
             data = JSON.parse(data.task)
             console.log(data)
             if (data.err === null) {
-                setData(data.translation);
+                setData(data);
             } else {
                 console.error("Nope. Translation failed.")
                 // handle error here
@@ -34,8 +33,10 @@ const Main = ({ csrftoken }) => {
 
     return (
         <div>
-            <InputBox handleInputChange={setSearch}/>
-            <OutputBox text={data}/>
+            <div className='main'>
+                <InputBox handleInputChange={setSearch}/>
+                <OutputBox payload={data}/>
+            </div>
             <button onClick={handleSearch}>Search</button>
         </div>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 
 const InputBox = ({ handleInputChange }) => {
     return (
-        <input type='text' onChange={(e) => handleInputChange(e.target.value)}/>
+        <textarea placeholder='search!' className='card' type='text' onChange={(e) => handleInputChange(e.target.value)}/>
     )
 }
 
