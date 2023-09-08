@@ -2,7 +2,8 @@ import Main from './components/main.js'
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Sidebar from './components/sidebar.js';
 
 function getCookie(name) {
   let cookieValue = null;
@@ -24,15 +25,23 @@ const csrftoken = getCookie('csrftoken');
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Translate <code>English into Irish</code>
-        </p>
-        <Main csrftoken={csrftoken}/>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <div class="container">
+          <div class="header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <div style={{ marginTop: 10 }}>Translate <code>English into Irish</code></div>
+          </div>
+          <Sidebar />
+          <div class="body">
+            <Main csrftoken={csrftoken}/>
+          </div>
+          <div class="footer">
+              Footer Content
+          </div>
+        </div>
+      </div>
+    </Router>
   );
 }
 

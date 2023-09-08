@@ -14,14 +14,14 @@ class Tags(models.Model):
     def __str__(self):
         return self.tag
 
-
 class UserQueries(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
-    # user_id = models.CharField(max_length=256)  # Store CSRF token as user ID
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     input_text = models.TextField()
     output_text = models.TextField()
     pronunciation = models.TextField()
+    correct_answers = models.PositiveIntegerField(default=0)
+    incorrect_answers = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField(Tags, related_name='queries')
 
     def __str__(self):

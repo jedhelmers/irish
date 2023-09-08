@@ -24,10 +24,12 @@ def handle_translation_and_pronunciation(self, original_text):
     translation_data['pronunciation'] = utils.fetch_ipa(translation_data['targetTransliteration'])['output']
 
     # Create a new UserQueries object and save it to the database
-    if map_to_user_queries(translation_data):
-        print('Mapped to UserQueries: Task finished!')
+    row = map_to_user_queries(translation_data)
+    if row:
+        print('Mapped to UserQueries: Task finished!', row)
 
         return {
+            "queryID": row.id,
             "err": translation_data.get('err', None),
             "translation": translation_data.get('result', ''),
             "input": translation_data.get('sourceTransliteration', ''),
@@ -47,9 +49,11 @@ def map_to_user_queries(combined_data):
             output_text=combined_data.get('result', ''),
             pronunciation=combined_data.get('pronunciation', '')
         )
+        
         user_query.save()
+        print('ID', user_query.id)
 
-        return True
+        return user_query
     except:
         return False
 

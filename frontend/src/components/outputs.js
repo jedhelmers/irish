@@ -1,12 +1,15 @@
 import React from 'react'
 
-const OutputBox = ({payload}) => {
-    const {translation, pronunciation, ...rest} = payload
+
+const OutputBox = ({csrftoken, payload}) => {
+    const {translation, pronunciation, queryID, ...rest} = payload
 
     return (
         <div className='card'>
-            <h3>{translation}</h3>
-            <p>{pronunciation}</p>
+            <div className='textbody'>
+                <h3>{translation}</h3>
+                <p>{pronunciation}</p>
+            </div>
         </div>
     )
 }

@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 20vmin;
+  height: 40px;
   pointer-events: none;
 }
 
@@ -30,7 +30,7 @@
 
 .main {
   display: flex;
-  width: 94vw;
+  width: 100%;
   justify-content: space-between;
 }
 
@@ -42,12 +42,92 @@
   border-radius: 4px;
   color: #282c34;
   background-color: white;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.card i {
+  width: 20px;
+}
+
+.trash {
+  color: rgb(250, 24, 24);
+}
+
+.card .textbody {
+  justify-content: center;
+  width: 100%;
 }
 
 textarea.card {
   font-size: 20px;
   text-align: center;
 }
+
+
+
+/* MAIN STRUCTURE */
+.container .header {
+  grid-area: header;
+  max-height: 80px;
+  background-color: #282c34;
+  color: white;
+  justify-content: left;
+  display: flex;
+}
+
+.container .sidebar {
+  grid-area: sidebar;
+  /* min-width: 200px; */
+  background-color: white;
+}
+
+.container .body {
+  grid-area: body;
+  background-color: #b8c3d8;
+}
+
+.container .footer {
+  grid-area: footer;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr; /* Sidebar takes up 1 part, main body takes up 3 parts */
+  grid-template-rows: auto 1fr auto; /* Header and footer adjust to their content, main body takes up the remaining space */
+  grid-template-areas:
+      "header header"
+      "sidebar body"
+      "footer footer";
+  height: 100vh; /* Adjust this based on your needs */
+}
+
+/* Breakpoint for tablets */
+@media (max-width: 768px) {
+  .container {
+      grid-template-columns: 1fr; /* Make everything full width */
+      grid-template-rows: auto auto 1fr auto;
+      grid-template-areas:
+          "header"
+          "sidebar"
+          "body"
+          "footer";
+  }
+}
+
+/* Breakpoint for mobiles */
+@media (max-width: 480px) {
+  .container {
+      grid-template-areas:
+          "header"
+          "body"
+          "sidebar"
+          "footer";
+  }
+}
+
+
 
 @keyframes App-logo-spin {
   from {
@@ -56,4 +136,105 @@ textarea.card {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.sidebar {
+  width: 250px;  /* adjust as needed */
+  height: 100%;
+  background-color: #f7f7f7;
+  padding: 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 10px;
+}
+
+.sidebar-menu li a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.sidebar-menu li a:hover {
+  color: #007BFF;  /* change to your preferred hover color */
+}
+
+
+.flashcard-wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.card-button {
+  border-radius: 4px;
+  border: none;
+  width: 80px;
+}
+
+.flashcard-container {
+  width: 350px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #f7f7f7;
+  margin: 0 15px;
+  padding: 10px;
+}
+
+.flashcard-container:hover {
+  background-color: #e6e6e6;
+}
+
+.pronunciation {
+  font-style: italic;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tag-management {
+  margin-top: 20px;
+  justify-content: center;
+  display: flex;
+}
+
+.tag-add-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tag-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  cursor: pointer;
 }
