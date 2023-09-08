@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Queries from '../utils'
 
 const API_URL = process.env.REACT_APP_API_URL;
+const user_id = 1;
 
 
 function FlashcardsComponent({ csrftoken }) {
@@ -15,8 +16,6 @@ function FlashcardsComponent({ csrftoken }) {
     const [userGuess, setUserGuess] = useState("");
     const queries = new Queries(csrftoken)
 
-    const user_id = 4;  // This can be dynamic based on your app's requirements
-    
     const removeQuery = async (queryID) => {
         queries.removeUserQuery(queryID)
         .then(console.log)

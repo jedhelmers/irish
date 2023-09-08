@@ -13,6 +13,26 @@ try:
 except:
     user = User.objects.get(username='dummyuser')
 
+
+@shared_task
+def handle_guesses(query_id, guess):
+    user_query = UserQueries.objects.get(pk=query_id)
+
+    if user_query:
+        is_correct = user_query.output_text.lower() == guess.lower() or user_query.input_text.lower() == guess.lower()
+
+        if (is_correct):
+            user_query.correct_answers += 1
+        else:
+            user_query.incorrect_answers += 1
+
+        user_query.save()
+
+        return is_correct
+
+    return False
+
+
 @shared_task(bind=True)
 def handle_translation_and_pronunciation(self, original_text):
     print('Task started...')

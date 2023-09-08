@@ -77,23 +77,16 @@ def submit_guess(request):
         data = json.loads(request.body)
         guess = data.get("guess", "")
         query_id = data.get('query_id', None)
-        
-        
-        try:
-            user_query = UserQueries.objects.get(pk=query_id)
 
-            is_correct = user_query.output_text.lower() == guess.lower() or user_query.input_text.lower() == guess.lower()
+        # Use Celery to asynchronously handle the translation and pronunciation
+        result = tasks.handle_guesses(query_id, guess)
+        print('result', result)
 
-            if (is_correct): 
-                user_query.correct_answers += 1
-            else:
-                user_query.incorrect_answers += 1
-            
-            user_query.save()
-            
-            return JsonResponse({"message": "Guess recorded!", "isCorrect": is_correct}, status=200)
-        except UserQueries.DoesNotExist:
-            return JsonResponse({"error": "Query not found"}, status=404)
+        if result:
+            return JsonResponse({"message": "Guess recorded!", "isCorrect": result}, status=200)
+        else:
+            return JsonResponse({"message": "Guess recorded!", "isCorrect": result}, status=200)
+
     return JsonResponse({"error": "Invalid method"}, status=400)
 
 

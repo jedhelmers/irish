@@ -7,7 +7,7 @@ from my_app.models import UserQueries, Tags
 
 class TranslateViewTest(TestCase):
     def test_translate_view_post_method(self):
-        url = reverse('name_of_translate_view_in_urls')
+        url = reverse('translate')
         data = {'query': 'hello'}
         response = self.client.post(url, json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -23,7 +23,8 @@ class SubmitGuessTest(TestCase):
             output_text="hola",
             pronunciation="ho-la"
         )
-        self.url = reverse('name_of_submit_guess_in_urls')
+        self.url = reverse('submit_guess')
+
 
     def test_submit_guess_post_method(self):
         data = {
@@ -45,7 +46,8 @@ class AddTagsToUserQueryTest(TestCase):
             pronunciation="ho-la"
         )
         self.tag = Tags.objects.create(tag='example')
-        self.url = reverse('name_of_add_tags_to_userquery_in_urls', args=[self.query.id])
+        self.url = reverse('add_tags_to_userquery', args=[self.query.id])
+
 
     def test_add_tags_to_userquery(self):
         data = {
