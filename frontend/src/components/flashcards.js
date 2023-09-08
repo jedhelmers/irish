@@ -195,7 +195,7 @@ function FlashcardsComponent({ csrftoken }) {
                     <button onClick={() => submitGuess(flashcards[activeCard].id)}>Submit Guess</button>
                 </div>
 
-                <button onClick={() => setShowEnglish(!showEnglish)}>Toggle Language</button>
+                {/* <button onClick={() => setShowEnglish(!showEnglish)}>Toggle Language</button> */}
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: 100, padding: 10 }}>
                     <div>

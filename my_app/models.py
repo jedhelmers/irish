@@ -2,12 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Song(models.Model):
-    user_id = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
-    notes = models.JSONField()
-
-
 class Tags(models.Model):
     tag = models.CharField(max_length=50, unique=True)
 

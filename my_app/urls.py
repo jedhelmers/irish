@@ -3,8 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('api/create_song/<int:user_id>/', views.create_song, name='create_song'),
-    path('api/query_songs/', views.query_songs, name='query_songs'),
     path('api/translate/', views.translate_view, name='translate'),
     path('api/add_tags/<int:query_id>/', views.add_tags_to_userquery, name='add_tags_to_userquery'),
     path('api/remove_tags/<int:query_id>/', views.remove_tags_from_userquery, name='remove_tags_from_userquery'),

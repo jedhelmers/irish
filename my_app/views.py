@@ -1,25 +1,19 @@
 from django.http import JsonResponse
 from django.core.cache import cache
 from django.http import HttpResponse
-from .models import UserQueries, Tags, Song
+from .models import UserQueries, Tags
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
 import json
-import time
-from celery.result import AsyncResult
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
-
-from .producer import send_message
 import my_app.utils as utils
 import my_app.tasks as tasks
-
-
-from .tasks import publish_translation_task, translate
+from .tasks import publish_translation_task
 
 task_id = 0
 
@@ -216,33 +210,3 @@ class QueryView(View):
             return JsonResponse({'status': 'success'}, status=200)
         else:
             return JsonResponse({'status': 'error', 'message': 'Invalid input'}, status=400)
-
-
-def create_song(request, user_id):
-    print(request)
-    notes = [
-        [1, 0, 0, 1],
-        [0, 1, 0, 0],
-        # ... add more arrays
-    ]
-    message = {
-        "user_id": user_id,
-        "notes": notes
-    }
-    send_message(message)  # Send to RabbitMQ
-    return JsonResponse({"status": "Message sent to RabbitMQ"})
-
-
-def query_songs(request):
-    # Query all songs in the Song table
-    # Test
-    print(utils.fetch_ipa('Is i Londain priomhchathair'))
-    print('\n\nBUTTS', request)
-    all_songs = Song.objects.all()
-    print('\n\nBUTTS', all_songs)
-    # Print the details of each song to the console
-    for song in all_songs:
-        print(f"User ID: {song}")
-
-    # Also send a simple HTTP response to indicate that the function executed
-    return HttpResponse("Query executed, check console.")
