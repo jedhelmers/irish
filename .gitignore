@@ -1,5 +1,3 @@
 frontend/node_modules/
 venv/
-my_app/__pyache__/
 .DS_Store
-*/__pycache__/*
