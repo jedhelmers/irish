@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Queries from '../utils'
 
 const API_URL = process.env.REACT_APP_API_URL;
-const user_id = 1;
+const user_id = 4;
 
 
 function FlashcardsComponent({ csrftoken }) {
@@ -24,6 +24,7 @@ function FlashcardsComponent({ csrftoken }) {
     const handleAddTag = (query_id) => {
         if (selectedTag) {
             fetch(`${API_URL}/api/add_tags/${query_id}/`, {
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,6 +47,7 @@ function FlashcardsComponent({ csrftoken }) {
     const handleRemoveTag = (tagToRemove, query_id) => {
         // You'd probably have a DELETE or a similar endpoint for this. Adjust accordingly.
         fetch(`${API_URL}/api/remove_tag/${query_id}/`, {
+            credentials: 'include',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,6 +67,7 @@ function FlashcardsComponent({ csrftoken }) {
 
     const submitGuess = (cardId) => {
         fetch(`${API_URL}/api/submit_guess/`, {
+            credentials: 'include',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,6 +92,7 @@ function FlashcardsComponent({ csrftoken }) {
         // Fetch data based on selected tags
         console.log(Object.keys(selectedTags).filter(tag => selectedTags[tag]))
         fetch(`${API_URL}/api/get_queries/${user_id}/`, {
+            credentials: 'include',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -118,7 +122,9 @@ function FlashcardsComponent({ csrftoken }) {
     };
 
     useEffect(() => {
-        fetch(`${API_URL}/api/get_queries/${user_id}/`)
+        fetch(`${API_URL}/api/get_queries/${user_id}/`, {
+            credentials: 'include',
+        })
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -132,7 +138,7 @@ function FlashcardsComponent({ csrftoken }) {
     useEffect(() => {
         async function fetchTags() {
             try {
-                const response = await fetch(`${API_URL}/api/tags/`);
+                const response = await fetch(`${API_URL}/api/tags/`, {credentials: 'include'});
                 if (!response.ok) {
                     console.error("Failed to fetch tags");
                     return;

@@ -9,6 +9,7 @@ class Queries {
     async removeUserQuery(queryID) {
         console.log('queryID', queryID, `${API_URL}/api/remove_query/${queryID}`)
         return fetch(`${API_URL}/api/remove_query/${queryID}`, {
+            credentials: 'include',
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -21,6 +22,7 @@ class Queries {
     
     async getUserQuery(userID) {
         return fetch(`${API_URL}/api/get_queries/${userID}`, {
+            credentials: 'include',
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

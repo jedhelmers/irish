@@ -93,23 +93,14 @@ def submit_guess(request):
 @csrf_exempt
 @require_POST
 def add_tags_to_userquery(request, query_id):
-    query = get_object_or_404(UserQueries, id=query_id)
-    print(query.input_text)
-    
-    # Assuming tags as a list
-    # tags = request.POST.getlist('tags')
-
+    # query = get_object_or_404(UserQueries, id=query_id)
     data = json.loads(request.body)
     tags = data.get('tags', [])
     
-    print('tags', query_id, tags)
-    for tag_name in tags:
-        # creates if not exists
-        tag, created = Tags.objects.get_or_create(tag=tag_name)
-        print('tag, created', tag, created)
-        query.tags.add(tag)
-        
-    return JsonResponse({"status": "success", "message": "Tags added successfully"})
+    if tasks.handle_add_tags_to_userquery(query_id, tags):
+        return JsonResponse({"status": "success", "message": "Tags added successfully"})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid input'}, status=400)
 
 
 @require_POST

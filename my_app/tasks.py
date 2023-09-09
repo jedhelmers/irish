@@ -3,15 +3,15 @@ import pika
 import json
 from . import utils
 from celery import shared_task, current_task
-from my_app.models import UserQueries
+from my_app.models import UserQueries, Tags
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from backend.celery import app
 
-
 try:
-    user = User.objects.create(username='dummyuser')
+    butts = User.objects.create(username='dummyuser')
 except:
-    user = User.objects.get(username='dummyuser')
+    butts = User.objects.get(username='dummyuser')
 
 
 @shared_task
@@ -59,12 +59,27 @@ def handle_translation_and_pronunciation(self, original_text):
     return False
 
 
+@shared_task
+def handle_add_tags_to_userquery(query_id, tags):
+    try:
+        query = get_object_or_404(UserQueries, id=query_id)
+
+        for tag_name in tags:
+            tag, created = Tags.objects.get_or_create(tag=tag_name)
+            query.tags.add(tag)
+
+            query.save()
+
+        return True
+    except:
+        return False
+
 def map_to_user_queries(combined_data):
-    global user
+    global butts
 
     try:
         user_query = UserQueries.objects.create(
-            user=user,
+            user=butts,
             input_text=combined_data.get('sourceTransliteration', ''),
             output_text=combined_data.get('result', ''),
             pronunciation=combined_data.get('pronunciation', '')
@@ -109,8 +124,6 @@ def publish_translation_task(english_text):
     payload = {
         'text': english_text
     }
-
-    print('BUTTS')
 
     channel.basic_publish(
         exchange='',

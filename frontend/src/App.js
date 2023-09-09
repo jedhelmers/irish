@@ -1,5 +1,4 @@
 import Main from './components/main.js'
-import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -21,6 +20,9 @@ function getCookie(name) {
 }
 
 const csrftoken = getCookie('csrftoken');
+const userID = getCookie('irish_user_id');
+
+console.log('userID', userID)
 
 
 function App() {
