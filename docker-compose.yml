@@ -26,6 +26,8 @@ services:
     depends_on:
       - db
       - rabbitmq
+      - prometheus
+      - grafana
   myapp:
     build: .  # Build context set to root directory
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -46,5 +48,22 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: "http://localhost:8000"
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
 volumes:
   db-data:
+  grafana-data:
+
