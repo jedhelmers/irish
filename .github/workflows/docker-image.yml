@@ -19,9 +19,15 @@ jobs:
     - name: Check running services
       run: docker-compose ps
 
+
+    - name: Make migrations
+      run: docker-compose exec myapp python manage.py makemigrations
+
+    - name: Migrate
+      run: docker-compose exec myapp python manage.py migrate
+
     - name: Sleep for 30 seconds to allow the database to initialize
       run: sleep 30
-
     # Dump the database schema
     # - name: Dump database schema
     #   run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
@@ -38,11 +44,11 @@ jobs:
     #     path: db_schema.sql
 
     # Run all migrations.
-    - name: Run Django migrations
-      run: docker-compose run myapp python manage.py migrate
+    # - name: Run Django migrations
+    #   run: docker-compose run myapp python manage.py migrate
 
-    - name: Show migrations
-      run: docker-compose run --no-deps myapp python manage.py showmigrations
+    # - name: Show migrations
+    #   run: docker-compose run --no-deps myapp python manage.py showmigrations
 
     - name: Display db logs
       run: docker-compose logs db
