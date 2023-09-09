@@ -25,6 +25,10 @@ jobs:
     - name: List directory contents
       run: docker-compose exec myapp ls -l
 
+    - name: Execute print_apps.py script
+      run: docker-compose exec myapp python print_apps.py 2>&1
+
+
     - name: List Django Apps
       run: docker-compose exec myapp python print_apps.py
 
