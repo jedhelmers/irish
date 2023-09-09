@@ -48,7 +48,7 @@ services:
       - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
     ports:
       - "8000:8000"
-    link:
+    links:
       - db:db
     depends_on:
       - db
