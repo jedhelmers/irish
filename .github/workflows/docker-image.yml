@@ -16,17 +16,13 @@ jobs:
     - name: Build and start the Docker services
       run: docker-compose up -d
 
-    # Wait for some time to allow the database to initialize
-
     - name: Check running services
       run: docker-compose ps
 
-    # - name: Run make migrations
-    #   run: docker-compose exec myapp python manage.py makemigrations
+    - name: Sleep for 60 seconds to allow the database to initialize
+      run: sleep 60
 
-    - name: Apply migrations for auth app
-      run: docker-compose run myapp python manage.py migrate auth
-
+    # Run all migrations instead of just for the auth app.
     - name: Run Django migrations
       run: docker-compose run myapp python manage.py migrate
 
@@ -36,19 +32,13 @@ jobs:
     - name: Display db logs
       run: docker-compose logs db
 
-    - name: Sleep for 30 seconds
-      run: sleep 30
-
     - name: Display myapp logs
       run: docker-compose logs myapp
 
-
+    # Test execution
     - name: Run tests (or other commands)
-      run: docker-compose exec myapp python manage.py test
+      run: docker-compose run myapp python manage.py test
 
-    # If needed, you can add other checks/tests here
-
-    # Clean up the containers after the jobs are done
+    # Clean up
     - name: Stop Docker containers
       run: docker-compose down
-
