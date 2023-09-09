@@ -7,12 +7,61 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Build and start the Docker services
+      run: docker-compose up -d
+
+    - name: Check running services
+      run: docker-compose ps
+
+    - name: Migrate
+      run: docker-compose exec -T myapp python manage.py migrate
+
+    - name: Make migrations
+      run: docker-compose exec -T myapp python manage.py makemigrations
+
+    - name: Migrate
+      run: docker-compose exec -T myapp python manage.py migrate
+
+    - name: Sleep for 30 seconds to allow the database to initialize
+      run: sleep 30
+    # Dump the database schema
+    # - name: Dump database schema
+    #   run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
+
+    # - name: Dump database schema
+    #   env:
+    #     PGPASSWORD: mypassword
+    #   run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
+
+    # - name: Upload database schema
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: db-schema
+    #     path: db_schema.sql
+
+    # Run all migrations.
+    # - name: Run Django migrations
+    #   run: docker-compose run myapp python manage.py migrate
+
+    # - name: Show migrations
+    #   run: docker-compose run --no-deps myapp python manage.py showmigrations
+
+    - name: Display db logs
+      run: docker-compose logs db
+
+    - name: Display myapp logs
+      run: docker-compose logs myapp
+
+    # Test execution
+    - name: Run tests (or other commands)
+      run: docker-compose run myapp python manage.py test
+
+    # Clean up
+    - name: Stop Docker containers
+      run: docker-compose down
