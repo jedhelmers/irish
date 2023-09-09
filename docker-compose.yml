@@ -9,6 +9,9 @@ services:
       - POSTGRES_PASSWORD=mypassword
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
   rabbitmq:
     image: 'rabbitmq:management'
     ports:
@@ -20,6 +23,9 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=myuser
       - RABBITMQ_DEFAULT_PASS=mypassword
+    networks:
+      - app_network
+
   celery:
     build: .
     command: celery -A backend.celery:app worker --loglevel=info
@@ -31,18 +37,23 @@ services:
       - rabbitmq
       - prometheus
       - grafana
+    networks:
+      - app_network
+
   myapp:
-    build: .  # Build context set to root directory
+    build: .
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
-      - .:/app  # Map the current directory to /app in the container
-      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh  # Mount wait-for-it
+      - .:/app
+      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
     ports:
       - "8000:8000"
     depends_on:
       - db
-      # - rabbitmq
     entrypoint: ["/app/entrypoint.sh"]
+    networks:
+      - app_network
+
   frontend:
     build: ./frontend
     command: ["npm", "start"]
@@ -52,6 +63,9 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: "http://localhost:8000"
+    networks:
+      - app_network
+
   grafana:
     image: grafana/grafana:latest
     ports:
@@ -60,14 +74,22 @@ services:
       - prometheus
     volumes:
       - grafana-data:/var/lib/grafana
+    networks:
+      - app_network
+
   prometheus:
     image: prom/prometheus:latest
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - app_network
 
 volumes:
   db-data:
   grafana-data:
 
+networks:
+  app_network:
+    driver: bridge
