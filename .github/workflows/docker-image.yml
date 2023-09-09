@@ -9,19 +9,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
-    - name: Ensure entrypoint.sh is executable
-      run: chmod +x entrypoint.sh
 
-    # Build the Docker image
-    - name: Build the Docker image
-      run: docker build . --tag myapp:latest
+    - name: Build and start the Docker services
+      run: |
+        docker-compose up -d
 
-    # Run the image (only if needed for tests)
-    - name: Run the Docker container
-      run: docker run -d --name myapp-container myapp:latest
+    # Wait for some time to allow the database to initialize
+    - name: Sleep for 30 seconds
+      run: sleep 30
 
-    # Run the tests inside the Docker container
-    - name: Run the tests inside the Docker container
-      run: docker exec myapp-container python manage.py test
+    # Run the migrations on the myapp container
+    - name: Run migrations
+      run: docker-compose exec -T myapp python manage.py migrate
+
+    # If needed, you can add other checks/tests here
+
+    # Clean up the containers after the jobs are done
+    - name: Stop Docker containers
+      run: docker-compose down
