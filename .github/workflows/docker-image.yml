@@ -17,23 +17,24 @@ jobs:
       run: docker-compose up
 
     # Wait for some time to allow the database to initialize
-    - name: Sleep for 30 seconds
-      run: sleep 30
 
     - name: Check running services
       run: docker-compose ps
+
+    - name: Run make migrations
+      run: docker-compose exec myapp python manage.py makemigrations
+
+    - name: Sleep for 30 seconds
+      run: sleep 30
+
+    - name: Run migrations
+      run: docker-compose exec myapp python manage.py migrate
 
     - name: Display myapp logs
       run: docker-compose logs myapp
 
     - name: Display db logs
       run: docker-compose logs db
-
-    - name: Run make migrations
-      run: docker-compose exec myapp python manage.py makemigrations
-
-    - name: Run migrations
-      run: docker-compose exec myapp python manage.py migrate
 
     - name: Run tests (or other commands)
       run: docker-compose exec myapp python manage.py test
