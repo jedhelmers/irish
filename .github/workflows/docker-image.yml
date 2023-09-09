@@ -32,7 +32,7 @@ jobs:
       run: sleep 30
 
     - name: Run migrations
-      run: docker-compose exec myapp python manage.py migrate
+      run: docker-compose exec myapp bash -c "python manage.py migrate"
 
     - name: Display myapp logs
       run: docker-compose logs myapp
