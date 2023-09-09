@@ -52,10 +52,10 @@ CORS_ALLOWED_ORIGINS = [
 
 INSTALLED_APPS = [
     'corsheaders',
-    'my_app',
-    'django_prometheus',
     'django.contrib.admin',
     'django.contrib.auth',
+    'my_app',
+    'django_prometheus',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
