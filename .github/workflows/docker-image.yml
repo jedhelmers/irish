@@ -28,6 +28,12 @@ jobs:
     # - name: Execute print_apps.py script
     #   run: docker-compose exec myapp python print_apps.py 2>&1
 
+    - name: Log into db
+      run: docker-compose exec db psql -U myuser mydatabase
+
+    - name: Get tables and quit
+      run: \dt
+      run: \q
 
     - name: List Django Apps
       run: docker-compose exec myapp python print_apps.py
