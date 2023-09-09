@@ -16,8 +16,15 @@ jobs:
     - name: Build and start the Docker services
       run: docker-compose up -d
 
+    - name: Check running services
+      run: docker-compose ps
+
+    - name: Sleep for 30 seconds to allow the database to initialize
+      run: sleep 30
+
+    # Dump the database schema
     - name: Dump database schema
-      run: docker-compose exec -T db pg_dump --schema-only -U myuser mydatabase > db_schema.sql
+      run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
 
     - name: Upload database schema
       uses: actions/upload-artifact@v2
@@ -25,25 +32,7 @@ jobs:
         name: db-schema
         path: db_schema.sql
 
-    - name: Check running services
-      run: docker-compose ps
-
-    - name: Sleep for 30 seconds to allow the database to initialize
-      run: sleep 30
-
-    # - name: List directory contents
-    #   run: docker-compose exec myapp ls -l
-
-    # - name: Execute print_apps.py script
-    #   run: docker-compose exec myapp python print_apps.py 2>&1
-
-
-    # - name: List Django Apps
-    #   run: docker-compose exec myapp python print_apps.py
-
-
-
-    # Run all migrations instead of just for the auth app.
+    # Run all migrations.
     - name: Run Django migrations
       run: docker-compose run myapp python manage.py migrate
 
