@@ -19,8 +19,11 @@ jobs:
     - name: Check running services
       run: docker-compose ps
 
-    - name: Sleep for 60 seconds to allow the database to initialize
-      run: sleep 60
+    - name: Sleep for 30 seconds to allow the database to initialize
+      run: sleep 30
+
+    - name: List Django Apps
+      run: docker-compose exec myapp python manage.py shell -c "'print(\n'.join(settings.INSTALLED_APPS))'"
 
     # Run all migrations instead of just for the auth app.
     - name: Run Django migrations
