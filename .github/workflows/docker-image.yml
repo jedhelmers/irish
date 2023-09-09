@@ -20,12 +20,22 @@ jobs:
     - name: Sleep for 30 seconds
       run: sleep 30
 
-    # Run the migrations on the myapp container
+    - name: Check running services
+      run: docker-compose ps
+
+    - name: Display myapp logs
+      run: docker-compose logs myapp
+
+    - name: Display db logs
+      run: docker-compose logs db
+
     - name: Run migrations
       run: docker-compose exec myapp python manage.py migrate
+
 
     # If needed, you can add other checks/tests here
 
     # Clean up the containers after the jobs are done
     - name: Stop Docker containers
       run: docker-compose down
+
