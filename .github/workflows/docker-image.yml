@@ -17,14 +17,13 @@ jobs:
       run: docker-compose up -d
 
     - name: Dump database schema
-      run: docker-compose run db pg_dump --schema-only -U myuser mydatabase > db_schema.sql
+      run: docker-compose exec -T db pg_dump --schema-only -U myuser mydatabase > db_schema.sql
 
     - name: Upload database schema
       uses: actions/upload-artifact@v2
       with:
         name: db-schema
         path: db_schema.sql
-
 
     - name: Check running services
       run: docker-compose ps
@@ -39,8 +38,8 @@ jobs:
     #   run: docker-compose exec myapp python print_apps.py 2>&1
 
 
-    - name: List Django Apps
-      run: docker-compose exec myapp python print_apps.py
+    # - name: List Django Apps
+    #   run: docker-compose exec myapp python print_apps.py
 
 
 
