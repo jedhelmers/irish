@@ -24,8 +24,8 @@ jobs:
     # - name: Run make migrations
     #   run: docker-compose exec myapp python manage.py makemigrations
 
-    - name: Run migrations
-      run: docker-compose exec myapp bash -c "python manage.py migrate"
+    - name: Run Django migrations
+      run: docker-compose run myapp python manage.py migrate
 
     - name: Show migrations
       run: docker-compose run --no-deps myapp python manage.py showmigrations
