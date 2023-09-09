@@ -24,6 +24,9 @@ jobs:
     # - name: Run make migrations
     #   run: docker-compose exec myapp python manage.py makemigrations
 
+    - name: Apply migrations for auth app
+      run: docker-compose run myapp python manage.py migrate auth
+
     - name: Run Django migrations
       run: docker-compose run myapp python manage.py migrate
 
