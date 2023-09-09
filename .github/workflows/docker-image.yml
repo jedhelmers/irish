@@ -26,16 +26,16 @@ jobs:
     # - name: Dump database schema
     #   run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
 
-    - name: Dump database schema
-      env:
-        PGPASSWORD: mypassword
-      run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
+    # - name: Dump database schema
+    #   env:
+    #     PGPASSWORD: mypassword
+    #   run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
 
-    - name: Upload database schema
-      uses: actions/upload-artifact@v2
-      with:
-        name: db-schema
-        path: db_schema.sql
+    # - name: Upload database schema
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: db-schema
+    #     path: db_schema.sql
 
     # Run all migrations.
     - name: Run Django migrations
