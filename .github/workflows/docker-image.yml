@@ -22,8 +22,13 @@ jobs:
     - name: Sleep for 30 seconds to allow the database to initialize
       run: sleep 30
 
+    - name: List directory contents
+      run: docker-compose exec myapp ls -l
+
     - name: List Django Apps
       run: docker-compose exec myapp python print_apps.py
+
+
 
     # Run all migrations instead of just for the auth app.
     - name: Run Django migrations
