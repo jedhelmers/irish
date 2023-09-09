@@ -2,7 +2,7 @@
 
 set -e
 
-/app/wait-for-it.sh db:5432 --timeout=30
+/scripts/wait-for-it.sh db:5432 --timeout=30
 
 # wait-for-postgres.sh
 until PGPASSWORD=mypassword psql -h "db" -U "myuser" -d "mydatabase" -c '\l'; do

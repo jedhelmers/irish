@@ -15,6 +15,11 @@ RUN apt-get update \
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
+COPY ./wait-for-it.sh /scripts/wait-for-it.sh
+COPY ./entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /scripts/wait-for-it.sh /app/entrypoint.sh
+
+
 # Set the entry point of the container
 ENTRYPOINT ["/app/entrypoint.sh"]
 
