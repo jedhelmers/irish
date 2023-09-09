@@ -15,11 +15,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag myapp:$(date +%s)
+      run: docker build . --file Dockerfile --tag myapp
     
     # Assuming your Docker image runs your app when started without a command
     - name: Run the Docker container
-      run: docker run -d --name my_app myapp:$(date +%s)
+      run: docker run -d --name my_app myapp
     
     # Execute tests inside the running container
     # This assumes that your app has a management command or script to run tests
