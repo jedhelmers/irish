@@ -48,6 +48,8 @@ services:
       - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
     ports:
       - "8000:8000"
+    link:
+      - db:db
     depends_on:
       - db
     entrypoint: ["/app/entrypoint.sh"]
