@@ -21,8 +21,8 @@ jobs:
     - name: Check running services
       run: docker-compose ps
 
-    - name: Run make migrations
-      run: docker-compose exec myapp python manage.py makemigrations
+    # - name: Run make migrations
+    #   run: docker-compose exec myapp python manage.py makemigrations
 
     - name: Sleep for 30 seconds
       run: sleep 30
