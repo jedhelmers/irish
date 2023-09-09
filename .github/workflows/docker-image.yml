@@ -26,7 +26,7 @@ jobs:
 
 
     - name: Check migrations status
-      run: docker-compose exec -T myapp python manage.py showmigrations
+      run: docker-compose exec myapp python manage.py showmigrations
 
     - name: Sleep for 30 seconds
       run: sleep 30
