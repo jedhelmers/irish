@@ -3,6 +3,7 @@ version: '3'
 services:
   db:
     image: postgres:13
+    restart: always
     environment:
       - POSTGRES_DB=mydatabase
       - POSTGRES_USER=myuser
@@ -52,6 +53,7 @@ services:
       - db:db
     depends_on:
       - db
+    restart: always
     entrypoint: ["/app/entrypoint.sh"]
     networks:
       - app_network
