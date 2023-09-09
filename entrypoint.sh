@@ -3,8 +3,8 @@
 set -e
 
 # wait-for-postgres.sh
-while ! nc -z db 5432; do
-  echo "Waiting for PostgreSQL..."
+until PGPASSWORD=mypassword psql -h "db" -U "myuser" -d "mydatabase" -c '\l'; do
+  echo "Postgres is unavailable - sleeping..."
   sleep 1
 done
 
