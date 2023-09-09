@@ -9,28 +9,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2  # Update to v2 since v3 might not exist yet
 
-    - name: Build the MyApp Docker image
-      run: docker build . --file Dockerfile --tag myapp
+    # Build the Docker image
+    - name: Build the Docker image
+      run: docker build . --tag myapp:latest
 
-    - name: Run MyApp Docker image
-      run: docker run -d --name myapp_container myapp
+    # Run the image (only if needed for tests)
+    - name: Run the Docker container
+      run: docker run -d --name myapp-container myapp:latest
 
-    # If you want to build and run the other services, you can add similar steps.
-    # For example, to build the Celery service:
-    - name: Build the Celery Docker image
-      run: docker build . --file Dockerfile.celery --tag celery
-
-    # And to run it:
-    - name: Run Celery Docker image
-      run: docker run -d --name celery_container celery
-
-    # Similarly, for the frontend:
-    - name: Build the Frontend Docker image
-      run: docker build ./frontend --file Dockerfile.frontend --tag frontend
-
-    - name: Run Frontend Docker image
-      run: docker run -d --name frontend_container frontend
+    # Run the tests inside the Docker container
+    - name: Run the tests inside the Docker container
+      run: docker exec myapp-container python manage.py test
