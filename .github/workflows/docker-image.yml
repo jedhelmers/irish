@@ -7,26 +7,30 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag myapp
-    
-    # Assuming your Docker image runs your app when started without a command
-    - name: Run the Docker container
-      run: docker run -d --name my_app myapp
-    
-    # Execute tests inside the running container
-    # This assumes that your app has a management command or script to run tests
-    # For Django, it's typically `python manage.py test`
-    - name: Execute tests
-      run: docker exec my_app python manage.py test
 
-    # Optionally: Cleanup, stop and remove the container
-    - name: Cleanup
-      run: docker stop my_app && docker rm my_app
+    - name: Build the MyApp Docker image
+      run: docker build . --file Dockerfile --tag myapp
+
+    - name: Run MyApp Docker image
+      run: docker run -d --name myapp_container myapp
+
+    # If you want to build and run the other services, you can add similar steps.
+    # For example, to build the Celery service:
+    - name: Build the Celery Docker image
+      run: docker build . --file Dockerfile.celery --tag celery
+
+    # And to run it:
+    - name: Run Celery Docker image
+      run: docker run -d --name celery_container celery
+
+    # Similarly, for the frontend:
+    - name: Build the Frontend Docker image
+      run: docker build ./frontend --file Dockerfile.frontend --tag frontend
+
+    - name: Run Frontend Docker image
+      run: docker run -d --name frontend_container frontend
