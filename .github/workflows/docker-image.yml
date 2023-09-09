@@ -10,7 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2  # Update to v2 since v3 might not exist yet
+    - uses: actions/checkout@v3
+    - name: Ensure entrypoint.sh is executable
+      run: chmod +x entrypoint.sh
 
     # Build the Docker image
     - name: Build the Docker image
