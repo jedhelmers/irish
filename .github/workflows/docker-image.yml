@@ -29,9 +29,14 @@ jobs:
     - name: Display db logs
       run: docker-compose logs db
 
+    - name: Run make migrations
+      run: docker-compose exec myapp python manage.py makemigrations
+
     - name: Run migrations
       run: docker-compose exec myapp python manage.py migrate
 
+    - name: Run tests (or other commands)
+      run: docker-compose exec myapp python manage.py test
 
     # If needed, you can add other checks/tests here
 
