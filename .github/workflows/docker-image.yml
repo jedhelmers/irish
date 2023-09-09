@@ -31,8 +31,9 @@ jobs:
     - name: Log into db
       run: docker-compose exec db psql -U myuser mydatabase
 
-    - name: Get tables and quit
+    - name: Get tables
       run: \dt
+    - name: Quit db
       run: \q
 
     - name: List Django Apps
