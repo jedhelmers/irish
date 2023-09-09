@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Wait for the database to be available
-until python manage.py dbshell; do
-    echo "Waiting for the PostgreSQL service to start..."
-    sleep 1
+set -e
+
+# wait-for-postgres.sh
+while ! nc -z db 5432; do
+  echo "Waiting for PostgreSQL..."
+  sleep 1
 done
 
 # Run migrations
