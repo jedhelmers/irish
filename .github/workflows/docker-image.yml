@@ -23,7 +23,7 @@ jobs:
 
     # Run the migrations on the myapp container
     - name: Run migrations
-      run: docker-compose exec -T myapp python manage.py migrate
+      run: docker-compose exec myapp python manage.py migrate
 
     # If needed, you can add other checks/tests here
 
