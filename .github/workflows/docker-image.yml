@@ -23,7 +23,7 @@ jobs:
       run: sleep 30
 
     - name: List Django Apps
-      run: docker-compose exec myapp python manage.py shell -c "print(','.join(settings.INSTALLED_APPS))"
+      run: docker-compose exec myapp python print_apps.py
 
     # Run all migrations instead of just for the auth app.
     - name: Run Django migrations
