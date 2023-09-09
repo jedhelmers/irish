@@ -9,6 +9,7 @@ services:
       - POSTGRES_PASSWORD=mypassword
     volumes:
       - db-data:/var/lib/postgresql/data
+    entrypoint: ["/app/entrypoint.sh"]
   rabbitmq:
     image: 'rabbitmq:management'
     ports:
@@ -38,7 +39,7 @@ services:
     depends_on:
       - db
       - rabbitmq
-    entrypoint: ["/app/entrypoint.sh"]
+    # entrypoint: ["/app/entrypoint.sh"]
   frontend:
     build: ./frontend
     command: ["npm", "start"]
