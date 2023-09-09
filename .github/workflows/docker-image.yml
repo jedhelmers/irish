@@ -23,7 +23,12 @@ jobs:
       run: sleep 30
 
     # Dump the database schema
+    # - name: Dump database schema
+    #   run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
+
     - name: Dump database schema
+      env:
+        PGPASSWORD: mypassword
       run: docker-compose exec -T db pg_dump --schema-only -U myuser -h db -p 5432 mydatabase > db_schema.sql
 
     - name: Upload database schema
