@@ -1,3 +1,19 @@
+# --- Build Stage ---
+FROM node:14 AS frontend-build
+
+WORKDIR /app/frontend
+
+# Copy package.json and package-lock.json for frontend
+COPY frontend/package*.json ./
+
+# Install frontend dependencies
+RUN npm install
+
+# Copy the rest of the frontend files and build
+COPY frontend/ ./
+RUN npm run build
+
+# --- Production Stage ---
 FROM python:3.8
 
 ENV PYTHONUNBUFFERED=1
@@ -8,34 +24,19 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Install necessary utilities
+# Install additional tools like netcat and PostgreSQL client
 RUN apt-get update \
-    && apt-get install -y postgresql-client curl \
+    && apt-get install -y postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js and npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean
+# Copy the built frontend assets from the build stage
+COPY --from=frontend-build /app/frontend/build /app/frontend/build
 
-# Copy & Setup frontend
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build && rm -rf node_modules
-
-# Set work directory for Django app
-WORKDIR /app
-
-# Copy the rest of the app
+# Copy the Django application and other necessary files
 COPY . .
 
-# Copy entrypoint & other necessary scripts
+# Set the entry point
 COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
 COPY ./scripts/wait-for-it.sh /scripts/wait-for-it.sh
-RUN chmod +x /scripts/wait-for-it.sh
-
+RUN chmod +x /app/entrypoint.sh /scripts/wait-for-it.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
