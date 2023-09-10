@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from .models import Tags, UserQueries, populate_tags
+from my_app.models import Tags, UserQueries, populate_tags
 from unittest.mock import patch
 
 class IntegrationTests(TestCase):

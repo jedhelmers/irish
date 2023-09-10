@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.db import transaction
+import uuid
 
 class UserCreationMiddleware:
     def __init__(self, get_response):
@@ -9,13 +11,13 @@ class UserCreationMiddleware:
         irish_user_id = request.COOKIES.get('irish_user_id')
 
         if not irish_user_id:
-            # Create a new user
-            try:
-                user = User.objects.create_user(username="dummyuser")
-                irish_user_id = user.id
-            except:
-                user = User.objects.get(username='dummyuser')
-                irish_user_id = user.id
+            with transaction.atomic():
+                try:
+                    user = User.objects.create_user(username=uuid.uuid4())
+                    irish_user_id = user.id
+                except:
+                    user = User.objects.get(username=uuid.uuid4())
+                    irish_user_id = user.id
 
         response = self.get_response(request)
 
