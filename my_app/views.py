@@ -11,6 +11,8 @@ import json
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView
+import uuid
 import my_app.utils as utils
 import my_app.tasks as tasks
 from .tasks import publish_translation_task
@@ -18,6 +20,24 @@ from .tasks import publish_translation_task
 task_id = 0
 
 global_cache = {}
+
+
+class CustomTemplateView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_id'] = self.create_user_id()
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        response.set_cookie('user_id', context['user_id'])
+        return response
+
+    def create_user_id(self):
+        return str(uuid.uuid4())
+
 
 @csrf_exempt
 def translate_view(request):
