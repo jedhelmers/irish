@@ -36,7 +36,7 @@ function App() {
           </div>
           <Sidebar />
           <div class="body">
-            <Main csrftoken={csrftoken}/>
+            <Main csrftoken={csrftoken} userID={userID}/>
           </div>
           <div class="footer">
               Footer Content

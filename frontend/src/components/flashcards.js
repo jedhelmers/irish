@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Queries from '../utils'
 
 const API_URL = '';
-const user_id = 4;
+// const userID = 4;
 
 
-function FlashcardsComponent({ csrftoken }) {
+function FlashcardsComponent({ csrftoken, userID }) {
     const [activeCard, setActiveCard] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
     const [flashcards, setFlashcards] = useState([]);
@@ -91,7 +91,7 @@ function FlashcardsComponent({ csrftoken }) {
     useEffect(() => {
         // Fetch data based on selected tags
         console.log(Object.keys(selectedTags).filter(tag => selectedTags[tag]))
-        fetch(`/api/get_queries/${user_id}/`, {
+        fetch(`/api/get_queries/${userID}/`, {
             credentials: 'include',
             method: 'POST',
             headers: {
@@ -122,7 +122,7 @@ function FlashcardsComponent({ csrftoken }) {
     };
 
     useEffect(() => {
-        fetch(`/api/get_queries/${user_id}/`, {
+        fetch(`/api/get_queries/${userID}/`, {
             credentials: 'include',
         })
             .then(response => response.json())

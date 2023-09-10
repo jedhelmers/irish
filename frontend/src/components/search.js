@@ -4,9 +4,11 @@ import OutputBox from './outputs'
 
 const API_URL = '';
 
-const Search = ({ csrftoken }) => {
+const Search = ({ csrftoken, userID }) => {
     const [search, setSearch] = useState("")
     const [data, setData] = useState("")
+
+    console.log("SEARCH", csrftoken)
 
     const handleSearch = () => {
         // Simulate an API call to Django Backend
