@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('metrics/', include('django_prometheus.urls')),
     path('api/', include('my_app.urls')),
-    path('', views.CustomTemplateView.as_view(), name='home'),
+    # path('', views.CustomTemplateView.as_view(), name='home'),
+    re_path(r'^.*', views.index, name='index'),
     re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
 ]
