@@ -82,6 +82,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+# STATICFILES_DIRS = [BASE_DIR / "frontend/build"]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend', 'build', 'static')]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -171,17 +182,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-print('STATIC_ROOT', STATIC_ROOT)
-
-# STATIC_URL = '/static/'
-STATIC_URL = '/static/'
-print('STATIC_URL', STATIC_URL)
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
-print('STATICFILES_DIRS', STATICFILES_DIRS)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -1,26 +1,25 @@
-FROM python:3.8
-ENV PYTHONUNBUFFERED=1
+# Your current content...
+
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y curl && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean
+
+# Set work directory for frontend
+WORKDIR /app/frontend
+
+# Copy package.json and package-lock.json for frontend
+COPY frontend/package*.json ./
+
+# Install frontend dependencies
+RUN npm install
+
+# Build the frontend
+COPY frontend/ ./
+RUN npm run build
+
+# Reset the working directory to /app for Django
 WORKDIR /app
-COPY requirements.txt .
 
-# RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install -r requirements.txt
-
-# Install netcat
-RUN apt-get update \
-    && apt-get install -y postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy entry point script then run id
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
-COPY ./scripts/wait-for-it.sh /scripts/wait-for-it.sh
-COPY ./entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /scripts/wait-for-it.sh /app/entrypoint.sh
-
-
-# Set the entry point of the container
-ENTRYPOINT ["/app/entrypoint.sh"]
-
-COPY . .
+# Your current content...
