@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import InputBox from './inputs'
 import OutputBox from './outputs'
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = '';
 
 const Search = ({ csrftoken }) => {
     const [search, setSearch] = useState("")
