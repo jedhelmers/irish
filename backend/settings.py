@@ -31,7 +31,7 @@ DISABLE_COLLECTSTATIC = 1
 SECRET_KEY = 'django-insecure-1tr_r#8q+9!te@7m*b3&8h0#yca6aa!1h*u83lp9soee5iha*_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['backend', 'my_app', 'my_app_1', 'localhost', '127.0.0.1']
 ALLOWED_HOSTS = ['*']
@@ -84,11 +84,15 @@ ROOT_URLCONF = 'backend.urls'
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+print('BASE_DIR', BASE_DIR)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 # STATICFILES_DIRS = [BASE_DIR / "frontend/build"]
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend', 'build', 'static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend', 'build', 'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend/build/static'),
+]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
