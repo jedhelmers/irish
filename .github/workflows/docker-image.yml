@@ -40,7 +40,6 @@ jobs:
       run: |
         docker-compose build
 
-    Uncomment below to run tests
     - name: Run Tests
       run: |
         python manage.py test
