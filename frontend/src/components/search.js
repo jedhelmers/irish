@@ -10,7 +10,7 @@ const Search = ({ csrftoken }) => {
 
     const handleSearch = () => {
         // Simulate an API call to Django Backend
-        fetch(`${API_URL}/api/translate/`, {
+        fetch(`/api/translate/`, {
             credentials: 'include',
             method: 'POST',
             headers: {

@@ -7,8 +7,8 @@ class Queries {
     }
 
     async removeUserQuery(queryID) {
-        console.log('queryID', queryID, `${API_URL}/api/remove_query/${queryID}`)
-        return fetch(`${API_URL}/api/remove_query/${queryID}`, {
+        console.log('queryID', queryID, `/api/remove_query/${queryID}`)
+        return fetch(`/api/remove_query/${queryID}`, {
             credentials: 'include',
             method: 'DELETE',
             headers: {
@@ -21,7 +21,7 @@ class Queries {
     }
     
     async getUserQuery(userID) {
-        return fetch(`${API_URL}/api/get_queries/${userID}`, {
+        return fetch(`/api/get_queries/${userID}`, {
             credentials: 'include',
             method: 'GET',
             headers: {
