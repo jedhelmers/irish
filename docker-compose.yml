@@ -1,19 +1,6 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:13
-    restart: always
-    environment:
-      - POSTGRES_DB=mydatabase
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_HOST_AUTH_METHOD=trust
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    networks:
-      - app_network
-
   rabbitmq:
     image: 'rabbitmq:management'
     ports:
@@ -21,7 +8,6 @@ services:
       - '5672:5672'
     depends_on:
       - myapp
-      - db
     environment:
       - RABBITMQ_DEFAULT_USER=myuser
       - RABBITMQ_DEFAULT_PASS=mypassword
@@ -35,7 +21,6 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
       - rabbitmq
       - prometheus
       - grafana
@@ -47,13 +32,11 @@ services:
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/app
+      - ./backend/mydatabase.db:/app/backend/mydatabase.db
       - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+
     ports:
       - "8000:8000"
-    links:
-      - db:db
-    depends_on:
-      - db
     restart: always
     entrypoint: ["/app/entrypoint.sh"]
     networks:
@@ -92,7 +75,6 @@ services:
       - app_network
 
 volumes:
-  db-data:
   grafana-data:
 
 networks:

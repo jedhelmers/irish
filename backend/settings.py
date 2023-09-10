@@ -145,10 +145,22 @@ CACHES = {
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / "db.sqlite3",
+#         'USER': 'myuser',
+#         'PASSWORD': 'mypassword',
+#     }
+# }
+
+# PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
+        'NAME': os.path.join(PROJECT_DIR, 'mydatabase.db'),
         'USER': 'myuser',
         'PASSWORD': 'mypassword',
     }
