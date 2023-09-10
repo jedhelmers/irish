@@ -44,7 +44,8 @@ services:
 
   frontend:
     build: ./frontend
-    command: ["npm", "start"]
+    command: ["npm", "run", "build"]
+    # command: ["npm", "start"]
     volumes:
       - ./frontend:/frontend
     ports:
