@@ -24,6 +24,8 @@ global_cache = {}
 
 
 def grafana_proxy(request):
+    print("Received request for Grafana proxy")
+
     grafana_url = "http://localhost:3001"  # URL where Grafana is running
     print('grafana_url', grafana_url)
 
