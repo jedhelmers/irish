@@ -33,8 +33,8 @@ services:
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/app
-      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
       - ./backend/mydatabase.sqlite3:/app/backend/mydatabase.sqlite3
+      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
     ports:
       - "8000:8000"
     # restart: always
