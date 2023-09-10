@@ -11,7 +11,10 @@ from backend.celery import app
 try:
     butts = User.objects.create(username='dummyuser')
 except:
-    butts = User.objects.get(username='dummyuser')
+    try:
+        butts = User.objects.get(username='dummyuser')
+    except:
+        pass
 
 
 @shared_task

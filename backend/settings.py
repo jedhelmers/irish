@@ -53,16 +53,16 @@ CORS_ALLOWED_ORIGINS = [
 
 INSTALLED_APPS = [
     'corsheaders',
+    'my_app',
+    'backend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'my_app',
-    'django_prometheus',
-    'backend',
     'frontend',
+    'django_prometheus',
 ]
 
 MIDDLEWARE = [
@@ -160,7 +160,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(PROJECT_DIR, 'mydatabase.db'),
+        'NAME': os.path.join(PROJECT_DIR, 'backend', 'mydatabase.sqlite3'),
         'USER': 'myuser',
         'PASSWORD': 'mypassword',
     }

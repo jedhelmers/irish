@@ -15,6 +15,15 @@ class Test(models.Model):
         return self.creation
 
 
+# from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+# class UserForm(UserCreationForm):
+
+#     class Meta:
+#         model = User
+#         fields = ("username",)
+
+
 class UserQueries(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

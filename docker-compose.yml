@@ -17,13 +17,14 @@ services:
   celery:
     build: .
     command: celery -A backend.celery:app worker --loglevel=info
-    restart: always
+    # restart: always
     volumes:
       - .:/app
     depends_on:
       - rabbitmq
       - prometheus
       - grafana
+      - myapp
     networks:
       - app_network
 
@@ -32,11 +33,11 @@ services:
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/app
-      - ./backend/mydatabase.db:/app/backend/mydatabase.db
       - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+      - ./backend/mydatabase.sqlite3:/app/backend/mydatabase.sqlite3
     ports:
       - "8000:8000"
-    restart: always
+    # restart: always
     entrypoint: ["/app/entrypoint.sh"]
     networks:
       - app_network
