@@ -8,7 +8,7 @@ function Main({ csrftoken, userID }) {
         <main>
             <Routes>
                 <Route path="/flashcards" element={<FlashcardsComponent csrftoken={csrftoken} userID={userID}/>} />
-                <Route path="*" element={<Search csrftoken={csrftoken} userID={userID}/>} />
+                <Route path="/search" element={<Search csrftoken={csrftoken} userID={userID}/>} />
             </Routes>
 
         </main>

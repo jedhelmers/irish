@@ -16,10 +16,23 @@ import uuid
 import my_app.utils as utils
 import my_app.tasks as tasks
 from .tasks import publish_translation_task
+import requests
 
 task_id = 0
 
 global_cache = {}
+
+
+def grafana_proxy(request):
+    grafana_url = "http://localhost:3001"  # URL where Grafana is running
+    print('grafana_url', grafana_url)
+
+    # Forward the request to Grafana
+    response = requests.get(f"{grafana_url}{request.path}", headers=request.headers)
+    print('response', response)
+
+    # Return the response from Grafana
+    return HttpResponse(response.content, status=response.status_code)
 
 
 class CustomTemplateView(TemplateView):
