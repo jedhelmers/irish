@@ -13,7 +13,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 RABBITMQ_DEFAULT_USER = os.environ.get('RABBITMQ_DEFAULT_USER')
 RABBITMQ_DEFAULT_PASS = os.environ.get('RABBITMQ_DEFAULT_PASS')
 
-# print('RABBITMQ_DEFAULT_USER\n', RABBITMQ_DEFAULT_USER)
+print('RABBITMQ_DEFAULT_USER\n', RABBITMQ_DEFAULT_USER)
 # print('RABBITMQ_DEFAULT_PASS\n', RABBITMQ_DEFAULT_PASS)
 # app = Celery('my_app')
 # app = Celery('tasks', broker='pyamqp://myuser:mypassword@rabbitmq:5672//')
