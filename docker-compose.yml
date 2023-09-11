@@ -8,9 +8,9 @@ services:
       - '5672:5672'
     depends_on:
       - myapp
-    environment:
-      - RABBITMQ_DEFAULT_USER=myuser
-      - RABBITMQ_DEFAULT_PASS=mypassword
+    # environment:
+    #   - RABBITMQ_DEFAULT_USER=myuser
+    #   - RABBITMQ_DEFAULT_PASS=mypassword
     networks:
       - app_network
 

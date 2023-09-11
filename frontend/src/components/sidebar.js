@@ -8,7 +8,6 @@ function Sidebar() {
             <ul className="sidebar-menu">
                 <li><Link to="/search">Search</Link></li>
                 <li><Link to="/flashcards">Review as Flashcards</Link></li>
-                <li><Link to="/metrics/">View Metrics</Link></li>
             </ul>
         </div>
     );

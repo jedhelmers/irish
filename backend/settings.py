@@ -16,6 +16,10 @@ from pathlib import Path
 import os
 from decouple import config
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Make sure it gets loaded when Django starts
 __all__ = ('celery_app',)
@@ -122,7 +126,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # CELERY_BROKER_URL = 'amqp://myuser:mypassword@rabbitmq:5672/myvhost'
-CELERY_BROKER_URL = 'pyamqp://myuser:mypassword@rabbitmq:5672/myvhost'
+CELERY_BROKER_URL = 'amqp://myuser:mypassword@rabbitmq:5672/myvhost'
 # CELERY_BROKER_URL = 'pyamqp://myuser:mypassword@rabbitmq:5672/'
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
 # CELERY_BROKER_URL = 'redis://redis:6379/0'
