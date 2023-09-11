@@ -1,7 +1,7 @@
 # English to Irish translator
 Welcome.
 
-I decided to create an English to Irish translation app with a flashcard component coming soon. I've been trying to learn the language for years and thought it would be a good way to integrate something I like into code. I decided to use both Django and React for this app as one of the projects I'm on at work is a Django app, and leadership is looking at the idea of integrating React into instead of all the .handlebar templates.
+I decided to create an English to Irish translation app with a flashcard component coming soon. I've been trying to learn the language for years and thought it would be a good way to integrate something I like into code. Another factor for why I chose this was for pronunciation. Irish has very peculiar linguistic twists and turns. As a result, pronunciation is crazy. I decided to use both Django and React for this app as one of the projects I'm on at work is a Django app, and leadership is looking at the idea of integrating React into instead of all the .handlebar templates.
 
 I'm using a couple APIs for this. One of them gets a translation, and the other gets the pronunciation of the translation. When these API calls happen, they are created as shared_tasks within my Celery and RabbitMQ containers. They then get the data, the data is combined and then saved into an SQL database. Since Django has a serverless SQLite database ready to go, I opted to use that to reduce complexity.
 
