@@ -35,6 +35,7 @@ SECRET_KEY = 'django-insecure-1tr_r#8q+9!te@7m*b3&8h0#yca6aa!1h*u83lp9soee5iha*_
 # DEBUG = True
 # DEBUG = False
 DEBUG = config('DEBUG', default=False, cast=bool)
+print('DEBUG', DEBUG)
 
 # ALLOWED_HOSTS = ['backend', 'my_app', 'my_app_1', 'localhost', '127.0.0.1']
 ALLOWED_HOSTS = ['*']
@@ -57,6 +58,7 @@ CORS_ALLOWED_ORIGINS = [
 INSTALLED_APPS = [
     'corsheaders',
     'my_app',
+    'revproxy',
     'backend',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,7 +89,7 @@ ROOT_URLCONF = 'backend.urls'
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-print('BASE_DIR', BASE_DIR)
+# print('BASE_DIR', BASE_DIR)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
@@ -215,3 +217,7 @@ LOGGING = {
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# PROMETHEUS_METRICS_EXPORT_PORT = 8001
+# PROMETHEUS_METRICS_EXPORT_ADDRESS = ''  # all addresses

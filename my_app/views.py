@@ -23,6 +23,28 @@ task_id = 0
 global_cache = {}
 
 
+def prometheus_reverse_proxy(request):
+    # Make a request to Prometheus
+    response_from_prometheus = requests.get('http://prometheus:9090')
+
+    # Create the Django HttpResponse from the Prometheus response content
+    response = HttpResponse(response_from_prometheus.content)
+
+    # Set the Django HttpResponse headers from the Prometheus response headers
+    for header, value in response_from_prometheus.headers.items():
+        if header.lower() not in ('content-encoding', 'transfer-encoding'):
+            response[header] = value
+
+    return response
+
+# from django_reverse_proxy.views import ReverseProxyView
+
+# def prometheus_view(request):
+#     # This view will act as a reverse proxy to Prometheus 
+#     view = ReverseProxyView.as_view(upstream='http://localhost:9090')
+#     return view(request)
+
+
 def grafana_proxy(request):
     print("Received request for Grafana proxy")
 
