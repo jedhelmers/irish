@@ -16,10 +16,6 @@ from pathlib import Path
 import os
 from decouple import config
 
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
 
 # Make sure it gets loaded when Django starts
 __all__ = ('celery_app',)

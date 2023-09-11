@@ -19,7 +19,7 @@ class Queries {
         })
         .then(response => response.json())
     }
-    
+
     async getUserQuery(userID) {
         return fetch(`/api/get_queries/${userID}`, {
             credentials: 'include',

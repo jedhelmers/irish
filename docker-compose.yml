@@ -17,7 +17,7 @@ services:
   celery:
     build: .
     command: celery -A backend.celery:app worker --loglevel=info
-    # restart: always
+    restart: always
     volumes:
       - .:/app
     depends_on:
@@ -38,7 +38,7 @@ services:
     ports:
       - "8000:8000"
     # restart: always
-    entrypoint: ["/app/entrypoint.sh"]
+    # entrypoint: ["/app/entrypoint.sh"]
     networks:
       - app_network
 
@@ -47,6 +47,7 @@ services:
     ports:
       - "3001:3000"
     depends_on:
+      - myapp
       - prometheus
     environment:
       GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
@@ -63,6 +64,8 @@ services:
       - "9090:9090"
     networks:
       - app_network
+    depends_on:
+      - myapp
 
 volumes:
   prometheus_data: {}

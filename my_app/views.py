@@ -15,7 +15,7 @@ from django.views.generic import TemplateView
 import uuid
 import my_app.utils as utils
 import my_app.tasks as tasks
-from .tasks import publish_translation_task
+from my_app.tasks import publish_translation_task
 import requests
 
 task_id = 0
@@ -199,7 +199,7 @@ def get_all_tags(request):
 @require_POST
 def get_userqueries(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    
+
     try:
         data = json.loads(request.body)
         tag_filter = data.get('tags', [])

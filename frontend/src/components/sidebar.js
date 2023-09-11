@@ -7,7 +7,7 @@ function Sidebar() {
         <div className="sidebar">
             <ul className="sidebar-menu">
                 <li><Link to="/search">Search</Link></li>
-                <li><Link to="/flashcards">Review as Flashcards</Link></li>
+                {/* <li><Link to="/flashcards">Review as Flashcards</Link></li> */}
             </ul>
         </div>
     );

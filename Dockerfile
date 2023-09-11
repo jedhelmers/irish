@@ -36,7 +36,9 @@ COPY --from=frontend-build /app/frontend/build /app/frontend/build
 COPY . .
 
 # Set the entry point
-COPY entrypoint.sh /app/entrypoint.sh
-COPY ./scripts/wait-for-it.sh /scripts/wait-for-it.sh
-RUN chmod +x /app/entrypoint.sh /scripts/wait-for-it.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+# COPY entrypoint.sh /app/entrypoint.sh
+# COPY ./scripts/wait-for-it.sh /scripts/wait-for-it.sh
+# RUN chmod +x /app/entrypoint.sh /scripts/wait-for-it.sh
+# ENTRYPOINT ["/app/entrypoint.sh"]
+
+# CMD ["celery", "-A", "backend.celery:app", "worker", "--loglevel=info"]

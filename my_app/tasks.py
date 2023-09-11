@@ -87,7 +87,7 @@ def map_to_user_queries(combined_data):
             output_text=combined_data.get('result', ''),
             pronunciation=combined_data.get('pronunciation', '')
         )
-        
+
         user_query.save()
         print('ID', user_query.id)
 
