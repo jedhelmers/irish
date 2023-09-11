@@ -38,3 +38,5 @@ A simple ```docker-compose build``` and ```docker-compose up -d``` should get th
 If pushing to GitHub, there is a workflow that will build the container in github's CI/CD. **.github/workflows/docker-image.yml** should take care of everything.
 
 If using Heroku, create a new project and point it to the github branch. Once github's workflow has complete, the container should deploy to the public facing site.
+
+Unit tests and integration tests run on in the workflow.
